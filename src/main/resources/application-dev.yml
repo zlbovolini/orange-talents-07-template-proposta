@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${PROPOSTA_DB_HOSTNAME}:${PROPOSTA_DB_PORT:5432}/${PROPOSTA_DB_NAME:proposta_dev}
+    username: ${PROPOSTA_DB_USERNAME}
+    password: ${PROPOSTA_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show_sql: true
+    format_sql: true

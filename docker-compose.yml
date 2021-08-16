@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+
+  proposta_api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: lbovolini/proposta-api
+    container_name: proposta-api
+    ports:
+      - "8081:8080"
+    environment:
+      PROPOSTA_DB_HOSTNAME: proposta-network
+      PROPOSTA_DB_PORT: 5400
+    networks:
+      - proposta-network
+    depends_on:
+      - proposta_db
+
+
+  proposta_db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: ${PROPOSTA_DB_USERNAME}
+      POSTGRES_PASSWORD: ${PROPOSTA_DB_PASSWORD}
+      POSTGRES_DB: ${PROPOSTA_DB_NAME}
+    container_name: proposta-db
+    ports:
+      - "5400:5432"
+    networks:
+      - proposta-network
+    volumes:
+      - ./db:/usr/local/pgsql/data
+
+networks:
+  proposta-network:
+    name: proposta-network
+    driver: bridge
