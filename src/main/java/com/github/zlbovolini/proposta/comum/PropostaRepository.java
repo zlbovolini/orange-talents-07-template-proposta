@@ -1,4 +1,4 @@
-package com.github.zlbovolini.proposta.criaproposta;
+package com.github.zlbovolini.proposta.comum;
 
 import org.springframework.data.repository.CrudRepository;
 

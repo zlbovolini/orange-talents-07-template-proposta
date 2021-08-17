@@ -1,5 +1,6 @@
 package com.github.zlbovolini.proposta.criaproposta;
 
+import com.github.zlbovolini.proposta.comum.Proposta;
 import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
 import com.github.zlbovolini.proposta.validation.Unique;
 

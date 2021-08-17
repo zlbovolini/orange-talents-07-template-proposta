@@ -1,16 +1,13 @@
-package com.github.zlbovolini.proposta.criaproposta;
+package com.github.zlbovolini.proposta.comum;
 
 import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Entity
-class Proposta {
+public class Proposta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +31,14 @@ class Proposta {
     @PositiveOrZero
     private BigDecimal salario;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private PropostaStatus status = PropostaStatus.RECEBIDO;
+
     @Deprecated
     Proposta() {}
 
-    Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
+    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
@@ -45,7 +46,19 @@ class Proposta {
         this.salario = salario;
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void atualizaStatus(PropostaStatus status) {
+        this.status = status;
     }
 }
