@@ -76,6 +76,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(ApiErrorException.class)
+    private ResponseEntity<ApiErrorResponse> handleApiError(ApiErrorException apiErrorException) {
+
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+
+        apiErrorResponse.addGlobalError(apiErrorException.getMessage());
+
+        return ResponseEntity.status(apiErrorException.getHttpStatus()).body(apiErrorResponse);
+    }
+
+    @ExceptionHandler(ApiFieldErrorException.class)
+    private ResponseEntity<ApiErrorResponse> handleApiFieldError(ApiFieldErrorException apiErrorException) {
+
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse();
+
+        apiErrorException.getErrors().forEach(apiErrorResponse::addFieldError);
+
+        return ResponseEntity.status(apiErrorException.getHttpStatus()).body(apiErrorResponse);
+    }
+
     private String getErrorMessage(MessageSourceResolvable error) {
         return messageSource.getMessage(error, LocaleContextHolder.getLocale());
     }

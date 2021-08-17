@@ -1,14 +1,22 @@
 package com.github.zlbovolini.proposta.criaproposta;
 
 import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
+import com.github.zlbovolini.proposta.validation.Unique;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 class CriarPropostaRequest {
 
     @NotBlank
     @CPFOrCNPJ
+    @Unique(entity = Proposta.class, field = "documento", self = "documento",
+            statusOnFailure = UNPROCESSABLE_ENTITY)
     private final String documento;
 
     @NotBlank
