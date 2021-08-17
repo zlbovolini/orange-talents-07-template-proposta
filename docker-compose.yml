@@ -11,8 +11,10 @@ services:
     ports:
       - "8081:8080"
     environment:
-      PROPOSTA_DB_HOSTNAME: proposta-network
-      PROPOSTA_DB_PORT: 5400
+      PROPOSTA_DB_HOSTNAME: proposta-db
+      PROPOSTA_DB_PORT: 5432
+      PROPOSTA_DB_USERNAME: ${PROPOSTA_DB_USERNAME}
+      PROPOSTA_DB_PASSWORD: ${PROPOSTA_DB_PASSWORD}
     networks:
       - proposta-network
     depends_on:
@@ -26,8 +28,9 @@ services:
       POSTGRES_PASSWORD: ${PROPOSTA_DB_PASSWORD}
       POSTGRES_DB: ${PROPOSTA_DB_NAME}
     container_name: proposta-db
+    hostname: proposta-db
     ports:
-      - "5400:5432"
+      - "5432:5432"
     networks:
       - proposta-network
     volumes:
@@ -35,5 +38,4 @@ services:
 
 networks:
   proposta-network:
-    name: proposta-network
     driver: bridge
