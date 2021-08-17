@@ -3,7 +3,6 @@ package com.github.zlbovolini.proposta.exception;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -64,16 +63,6 @@ public class GlobalExceptionHandler {
         });
 
         return ResponseEntity.badRequest().body(errorResponse);
-    }
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    private ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException e) {
-
-        ApiErrorResponse errorResponse = new ApiErrorResponse();
-
-        errorResponse.addGlobalError(e.getMessage());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(ApiErrorException.class)
