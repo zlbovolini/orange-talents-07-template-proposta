@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${PROPOSTA_DB_HOSTNAME:localhost}:${PROPOSTA_DB_PORT:5400}/${PROPOSTA_DB_NAME:proposta_dev}
+    username: ${PROPOSTA_DB_USERNAME:zup}
+    password: ${PROPOSTA_DB_PASSWORD:zup}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show_sql: true
+    format_sql: true
+    properties:
+      javax:
+        persistence:
+          query:
+            timeout: 50
+  devtools:
+    remote:
+      secret: "secret"
+
+feign:
+  client:
+    config:
+      financeiros:
+        read-timeout: 100
+        connect-timeout: 100
+
+solicitacao:
+  host: ${FINANCEIROS_URL:http://localhost:9999/api/solicitacao}
