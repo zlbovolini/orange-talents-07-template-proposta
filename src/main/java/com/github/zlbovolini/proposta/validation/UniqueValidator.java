@@ -40,14 +40,13 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
                 .append(" e WHERE e.")
                 .append(field)
                 .append(" = :fieldValue");
-        System.out.println("ASDASASDSA");
 
         TypedQuery<Boolean> query = entityManager.createQuery(stringBuilder.toString(), Boolean.class);
         query.setParameter("fieldValue", fieldValue);
 
         boolean isValid = query.getSingleResult();
 
-        if (status.equals(HttpStatus.BAD_REQUEST)) {
+        if (status.equals(HttpStatus.BAD_REQUEST) || isValid) {
             return isValid;
         }
 
