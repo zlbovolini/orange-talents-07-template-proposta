@@ -3,7 +3,10 @@ package com.github.zlbovolini.proposta.comum;
 import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 @Entity
@@ -35,6 +38,8 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private PropostaStatus status = PropostaStatus.RECEBIDO;
 
+    private String numeroCartao;
+
     @Deprecated
     Proposta() {}
 
@@ -60,5 +65,9 @@ public class Proposta {
 
     public void atualizaStatus(PropostaStatus status) {
         this.status = status;
+    }
+
+    public void atualizaNumeroCartao(@NotBlank String numeroCartao) {
+        this.numeroCartao = numeroCartao;
     }
 }

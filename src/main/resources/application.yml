@@ -33,6 +33,13 @@ management:
         allowed-origins: http://127.0.0.1
         allowed-methods: GET
 
+scheduled-task:
+  consulta-existe-cartao:
+    periodicidade:
+      executa-operacao: ${PERIODICIDADE_CONSULTA_EXISTE_CARTAO:1000}
+
 # Microservices
 solicitacao:
   host: ${FINANCEIROS_URL:http://localhost:9999/api/solicitacao}
+cartoes:
+  host: ${CARTOES_URL:http://localhost:8888/api/cartoes}
