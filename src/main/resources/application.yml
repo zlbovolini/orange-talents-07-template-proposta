@@ -26,5 +26,13 @@ feign:
         read-timeout: 100
         connect-timeout: 100
 
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: http://127.0.0.1
+        allowed-methods: GET
+
+# Microservices
 solicitacao:
   host: ${FINANCEIROS_URL:http://localhost:9999/api/solicitacao}
