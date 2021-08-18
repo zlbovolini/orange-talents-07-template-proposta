@@ -29,7 +29,7 @@ public class AtualizaCartaoPropostasAprovadasScheduledTask {
         propostaRepository.findByStatusAndNumeroCartaoIsNull(ELEGIVEL)
                 .forEach(proposta -> {
                     try {
-                        DadosCartaoResponse detalhesCartao = consultaCartao.consulta(proposta.getId());
+                        DadosCartaoResponse detalhesCartao = consultaCartao.consulta(proposta.getIdentificador());
                         atualizaCartaoProposta(proposta.getId(), detalhesCartao);
                     } catch (FeignException.FeignClientException | FeignException.FeignServerException e) {
                         // ignores exceptions

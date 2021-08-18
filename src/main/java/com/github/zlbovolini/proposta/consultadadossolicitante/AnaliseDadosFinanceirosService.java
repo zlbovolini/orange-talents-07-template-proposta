@@ -53,7 +53,7 @@ public class AnaliseDadosFinanceirosService implements CriarPropostaEvent {
 
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         transactionTemplate.execute(status -> {
-                Proposta proposta = propostaRepository.findById(consulta.getIdProposta())
+                Proposta proposta = propostaRepository.findByIdentificador(consulta.getIdProposta())
                         .orElseThrow();
                 proposta.atualizaStatus(resultadoSolicitacao.getStatus());
                 // utiliza a interface funcional para implementar com lambda

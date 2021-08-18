@@ -1,12 +1,15 @@
 package com.github.zlbovolini.proposta.consultadadossolicitante;
 
+import java.util.UUID;
+
 // !TODO
 public class AnaliseDadosFinanceirosResponse {
 
     private String documento;
     private String nome;
     private ResultadoSolicitacao resultadoSolicitacao;
-    private Long idProposta;
+    // identificador
+    private UUID idProposta;
 
     public String getDocumento() {
         return documento;
@@ -32,11 +35,11 @@ public class AnaliseDadosFinanceirosResponse {
         this.resultadoSolicitacao = resultadoSolicitacao;
     }
 
-    public Long getIdProposta() {
+    public UUID getIdProposta() {
         return idProposta;
     }
 
-    public void setIdProposta(Long idProposta) {
+    public void setIdProposta(UUID idProposta) {
         this.idProposta = idProposta;
     }
 }

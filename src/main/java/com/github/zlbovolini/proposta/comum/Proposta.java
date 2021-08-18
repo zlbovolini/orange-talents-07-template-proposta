@@ -1,6 +1,7 @@
 package com.github.zlbovolini.proposta.comum;
 
 import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 public class Proposta {
@@ -15,6 +17,10 @@ public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // !TODO tipo binario
+    @Type(type = "uuid-char")
+    private UUID identificador = UUID.randomUUID();
 
     @NotBlank
     @CPFOrCNPJ
@@ -53,6 +59,10 @@ public class Proposta {
 
     public Long getId() {
         return id;
+    }
+
+    public UUID getIdentificador() {
+        return identificador;
     }
 
     public String getDocumento() {
