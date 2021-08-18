@@ -22,7 +22,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-  proposta_db:
+  proposta_postgres:
     image: postgres:13-alpine
     environment:
       POSTGRES_USER: zup
@@ -32,6 +32,19 @@ services:
       - "5400:5432"
     volumes:
       - proposta-volume:/var/lib/postgresql/data
+
+  proposta:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: lbovolini/proposta
+    ports:
+      - "8188:8080"
+    environment:
+      PROPOSTA_DB_HOSTNAME: proposta_postgres
+      PROPOSTA_DB_PORT: 5432
+    depends_on:
+      - proposta_postgres
 
   postgres:
     image: 'postgres:9.6-alpine'
