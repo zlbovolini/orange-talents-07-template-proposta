@@ -73,6 +73,10 @@ public class Proposta {
         return nome;
     }
 
+    public PropostaStatus getStatus() {
+        return status;
+    }
+
     public void atualizaStatus(PropostaStatus status) {
         this.status = status;
     }
