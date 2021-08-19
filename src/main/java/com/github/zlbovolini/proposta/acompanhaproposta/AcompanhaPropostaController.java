@@ -21,7 +21,7 @@ public class AcompanhaPropostaController {
 
     @GetMapping("/{identificador}/status")
     public ResponseEntity<AcompanhaPropostaResponse> acompanha(@PathVariable UUID identificador) {
-        return propostaRepository.findByIdentificador(identificador)
+        return propostaRepository.findByUuid(identificador)
                 .map(proposta -> {
                     AcompanhaPropostaResponse acompanhaPropostaResponse = new AcompanhaPropostaResponse(proposta);
                     return ResponseEntity.ok(acompanhaPropostaResponse);

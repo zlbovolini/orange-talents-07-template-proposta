@@ -2,6 +2,7 @@ package com.github.zlbovolini.proposta.comum;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 public class DadosSolicitante {
 
@@ -10,18 +11,18 @@ public class DadosSolicitante {
     @NotBlank
     private final String nome;
     @NotNull
-    private final Long idProposta;
+    private final UUID idProposta;
 
-    public DadosSolicitante(String documento, String nome, Long idProposta) {
+    public DadosSolicitante(String documento, String nome, UUID uuid) {
         this.documento = documento;
         this.nome = nome;
-        this.idProposta = idProposta;
+        this.idProposta = uuid;
     }
 
     public DadosSolicitante(Proposta proposta) {
         this.documento = proposta.getDocumento();
         this.nome = proposta.getNome();
-        this.idProposta = proposta.getId();
+        this.idProposta = proposta.getUuid();
     }
 
     public String getDocumento() {
@@ -32,7 +33,7 @@ public class DadosSolicitante {
         return nome;
     }
 
-    public Long getIdProposta() {
+    public UUID getIdProposta() {
         return idProposta;
     }
 }

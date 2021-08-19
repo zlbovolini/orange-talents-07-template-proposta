@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface PropostaRepository extends CrudRepository<Proposta, Long> {
 
-    Optional<Proposta> findByIdentificador(UUID identificado);
+    Optional<Proposta> findByUuid(UUID uuid);
 
-    List<Proposta> findByStatusAndNumeroCartaoIsNull(PropostaStatus status);
+    List<Proposta> findByStatusAndCartaoIsNull(PropostaStatus status);
 }

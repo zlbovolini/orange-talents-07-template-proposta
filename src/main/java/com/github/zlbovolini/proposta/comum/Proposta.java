@@ -4,6 +4,7 @@ import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,7 +21,7 @@ public class Proposta {
 
     // !TODO tipo binario
     @Type(type = "uuid-char")
-    private UUID identificador = UUID.randomUUID();
+    private UUID uuid = UUID.randomUUID();
 
     @NotBlank
     @CPFOrCNPJ
@@ -44,7 +45,8 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private PropostaStatus status = PropostaStatus.RECEBIDO;
 
-    private String numeroCartao;
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    private Cartao cartao;
 
     @Deprecated
     Proposta() {}
@@ -61,8 +63,8 @@ public class Proposta {
         return id;
     }
 
-    public UUID getIdentificador() {
-        return identificador;
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getDocumento() {
@@ -81,7 +83,7 @@ public class Proposta {
         this.status = status;
     }
 
-    public void atualizaNumeroCartao(@NotBlank String numeroCartao) {
-        this.numeroCartao = numeroCartao;
+    public void atualizaCartao(@Valid @NotNull Cartao cartao) {
+        this.cartao = cartao;
     }
 }
