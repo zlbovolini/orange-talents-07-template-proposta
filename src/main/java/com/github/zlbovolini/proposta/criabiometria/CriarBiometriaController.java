@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v1/biometria")
+@RequestMapping("/api/v1/cartoes")
 public class CriarBiometriaController {
 
     private final BiometriaRepository biometriaRepository;
@@ -25,14 +25,14 @@ public class CriarBiometriaController {
         this.transactionManager = transactionManager;
     }
 
-    @PostMapping("/{numeroCartao}")
-    public ResponseEntity<Void> criar(@PathVariable String numeroCartao,
+    @PostMapping("/{numero}/biometria")
+    public ResponseEntity<Void> criarBiometria(@PathVariable String numero,
                                       @Valid @RequestBody CriarBiometriaRequest criarBiometriaRequest) {
 
-        Assert.notNull(numeroCartao, "Numero do cartão não pode ser nulo");
-        Assert.isTrue(!numeroCartao.isBlank(), "Numero do cartão inválido");
+        Assert.notNull(numero, "Numero do cartão não pode ser nulo");
+        Assert.isTrue(!numero.isBlank(), "Numero do cartão inválido");
 
-        Biometria biometria = criarBiometriaRequest.toModel(numeroCartao, cartaoRepository::findByNumeroAndNumeroIsNotNull);
+        Biometria biometria = criarBiometriaRequest.toModel(numero, cartaoRepository::findByNumeroAndNumeroIsNotNull);
 
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         transactionTemplate.execute(status -> biometriaRepository.save(biometria));
