@@ -19,6 +19,15 @@ spring:
     remote:
       secret: "secret"
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # authorization server URI
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:18080/auth/realms/propostas}
+          # URI das chaves para validar a assinatura do token
+          jwk-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:18080/auth/realms/propostas/protocol/openid-connect/certs}
+
 feign:
   client:
     config:
