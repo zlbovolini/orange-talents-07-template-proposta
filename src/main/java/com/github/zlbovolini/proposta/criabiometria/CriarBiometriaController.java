@@ -26,7 +26,7 @@ public class CriarBiometriaController {
         this.transactionManager = transactionManager;
     }
 
-    @PostMapping("/{uuid}/biometria")
+    @PostMapping("/{uuid}/biometrias")
     public ResponseEntity<Void> criarBiometria(@PathVariable UUID uuid,
                                       @Valid @RequestBody CriarBiometriaRequest criarBiometriaRequest) {
 
