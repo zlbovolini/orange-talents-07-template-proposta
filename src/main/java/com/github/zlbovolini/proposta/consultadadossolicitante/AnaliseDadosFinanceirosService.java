@@ -56,8 +56,8 @@ public class AnaliseDadosFinanceirosService implements CriarPropostaEvent {
                 Proposta proposta = propostaRepository.findByUuid(consulta.getIdProposta())
                         .orElseThrow();
                 proposta.atualizaStatus(resultadoSolicitacao.getStatus());
-                // utiliza a interface funcional para implementar com lambda
-                return true;
+
+                return status;
             }
         );
     }

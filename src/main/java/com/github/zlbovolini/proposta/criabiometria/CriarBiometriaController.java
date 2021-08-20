@@ -2,7 +2,6 @@ package com.github.zlbovolini.proposta.criabiometria;
 
 import com.github.zlbovolini.proposta.comum.CartaoRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +17,12 @@ public class CriarBiometriaController {
 
     private final BiometriaRepository biometriaRepository;
     private final CartaoRepository cartaoRepository;
-    private final PlatformTransactionManager transactionManager;
+    private final TransactionTemplate transactionTemplate;
 
-    public CriarBiometriaController(BiometriaRepository biometriaRepository, CartaoRepository cartaoRepository, PlatformTransactionManager transactionManager) {
+    public CriarBiometriaController(BiometriaRepository biometriaRepository, CartaoRepository cartaoRepository, TransactionTemplate transactionTemplate) {
         this.biometriaRepository = biometriaRepository;
         this.cartaoRepository = cartaoRepository;
-        this.transactionManager = transactionManager;
+        this.transactionTemplate = transactionTemplate;
     }
 
     @PostMapping("/{uuid}/biometrias")
@@ -34,7 +33,6 @@ public class CriarBiometriaController {
 
         Biometria biometria = criarBiometriaRequest.toModel(uuid, cartaoRepository::findByUuidAndUuidIsNotNull);
 
-        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         transactionTemplate.execute(status -> biometriaRepository.save(biometria));
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
