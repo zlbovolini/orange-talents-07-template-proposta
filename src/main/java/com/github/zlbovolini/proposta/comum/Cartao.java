@@ -1,5 +1,7 @@
 package com.github.zlbovolini.proposta.comum;
 
+import com.github.zlbovolini.proposta.bloqueiacartao.Bloqueio;
+import com.github.zlbovolini.proposta.bloqueiacartao.ClientRequestInfo;
 import com.github.zlbovolini.proposta.criabiometria.Biometria;
 
 import javax.persistence.*;
@@ -17,6 +19,9 @@ public class Cartao {
     @NotBlank
     private String numero;
 
+    @OneToOne(mappedBy = "cartao", cascade = CascadeType.MERGE)
+    private Bloqueio bloqueio;
+
     @OneToMany(mappedBy = "cartao")
     private Set<Biometria> biometrias;
 
@@ -25,6 +30,21 @@ public class Cartao {
 
     public Cartao(String numero) {
         this.numero = numero;
+    }
+
+    /**
+     *
+     * @param clientRequestInfo
+     * @return false se o cartão já está bloqueado, true se o cartão foi bloqueado com sucesso.
+     */
+    public boolean bloquear(ClientRequestInfo clientRequestInfo) {
+        if (Objects.nonNull(this.bloqueio)) {
+            return false;
+        }
+
+        this.bloqueio = clientRequestInfo.toBloqueio(this);
+
+        return true;
     }
 
     @Override

@@ -4,19 +4,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class ApiErrorResponse {
+public class ApiErrorResponse {
 
     private final List<String> globalErrors = new ArrayList<>();
     private final List<FieldErrorInfo> errors = new ArrayList<>();
 
     ApiErrorResponse() {}
 
-    void addFieldError(FieldErrorInfo fieldErrorInfo) {
-        errors.add(fieldErrorInfo);
+    public static ApiErrorResponse builder() {
+        return new ApiErrorResponse();
     }
 
-    void addGlobalError(String errorMessage) {
+    public ApiErrorResponse addFieldError(FieldErrorInfo fieldErrorInfo) {
+        errors.add(fieldErrorInfo);
+        return this;
+    }
+
+    public ApiErrorResponse addGlobalError(String errorMessage) {
         globalErrors.add(errorMessage);
+        return this;
     }
 
     public List<String> getGlobalErrors() {
