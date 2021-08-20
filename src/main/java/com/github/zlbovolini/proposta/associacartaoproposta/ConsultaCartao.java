@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface ConsultaCartao {
 
     @GetMapping
-    DadosCartaoResponse consulta(@RequestParam(name = "idProposta") UUID identificador);
+    DadosCartaoResponse consulta(@RequestParam(name = "idProposta") UUID uuid);
 }

@@ -36,8 +36,8 @@ public class CriarPropostaController {
         transactionTemplate.execute(status -> propostaRepository.save(proposta));
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(proposta.getId())
+                .path("/{uuid}")
+                .buildAndExpand(proposta.getUuid())
                 .toUri();
 
         DadosSolicitante dadosSolicitante = new DadosSolicitante(proposta);

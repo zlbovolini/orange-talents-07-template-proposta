@@ -3,11 +3,13 @@ package com.github.zlbovolini.proposta.comum;
 import com.github.zlbovolini.proposta.bloqueiacartao.Bloqueio;
 import com.github.zlbovolini.proposta.bloqueiacartao.ClientRequestInfo;
 import com.github.zlbovolini.proposta.criabiometria.Biometria;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 public class Cartao {
@@ -15,6 +17,10 @@ public class Cartao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // !TODO tipo binario
+    @Type(type = "uuid-char")
+    private UUID uuid = UUID.randomUUID();
 
     @NotBlank
     private String numero;

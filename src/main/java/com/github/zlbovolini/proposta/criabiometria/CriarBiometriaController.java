@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/cartoes")
@@ -25,20 +26,19 @@ public class CriarBiometriaController {
         this.transactionManager = transactionManager;
     }
 
-    @PostMapping("/{numero}/biometria")
-    public ResponseEntity<Void> criarBiometria(@PathVariable String numero,
+    @PostMapping("/{uuid}/biometria")
+    public ResponseEntity<Void> criarBiometria(@PathVariable UUID uuid,
                                       @Valid @RequestBody CriarBiometriaRequest criarBiometriaRequest) {
 
-        Assert.notNull(numero, "Numero do cartão não pode ser nulo");
-        Assert.isTrue(!numero.isBlank(), "Numero do cartão inválido");
+        Assert.notNull(uuid, "Identificador do cartão inválido");
 
-        Biometria biometria = criarBiometriaRequest.toModel(numero, cartaoRepository::findByNumeroAndNumeroIsNotNull);
+        Biometria biometria = criarBiometriaRequest.toModel(uuid, cartaoRepository::findByUuidAndUuidIsNotNull);
 
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         transactionTemplate.execute(status -> biometriaRepository.save(biometria));
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
+                .path("/{uuid}")
                 .buildAndExpand(biometria.getUuid())
                 .toUri();
 

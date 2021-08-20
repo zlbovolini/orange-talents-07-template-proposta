@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/cartoes")
@@ -26,10 +27,10 @@ public class BloquearCartaoController {
         this.transactionTemplate = transactionTemplate;
     }
 
-    @PostMapping("/{id}/bloqueios")
-    public ResponseEntity<?> bloquear(@PathVariable Long id, HttpServletRequest request) {
+    @PostMapping("/{uuid}/bloqueios")
+    public ResponseEntity<?> bloquear(@PathVariable UUID uuid, HttpServletRequest request) {
 
-        boolean existeCartao = cartaoRepository.existsById(id);
+        boolean existeCartao = cartaoRepository.existsByUuid(uuid);
 
         if (!existeCartao) {
             return ResponseEntity.notFound().build();
@@ -40,7 +41,7 @@ public class BloquearCartaoController {
                     String clientIp = request.getRemoteAddr();
 
                     boolean bloqueadoComSucesso = transactionTemplate.execute(status -> {
-                        Cartao cartao = cartaoRepository.findById(id)
+                        Cartao cartao = cartaoRepository.findByUuid(uuid)
                                 .orElseThrow();
                         ClientRequestInfo clientRequestInfo = new ClientRequestInfo(clientIp, userAgent);
 
