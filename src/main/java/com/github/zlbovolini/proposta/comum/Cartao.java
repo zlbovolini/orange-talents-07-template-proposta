@@ -1,7 +1,6 @@
 package com.github.zlbovolini.proposta.comum;
 
 import com.github.zlbovolini.proposta.bloqueiacartao.Bloqueio;
-import com.github.zlbovolini.proposta.bloqueiacartao.ClientRequestInfo;
 import com.github.zlbovolini.proposta.criabiometria.Biometria;
 import org.hibernate.annotations.Type;
 
@@ -38,19 +37,12 @@ public class Cartao {
         this.numero = numero;
     }
 
-    /**
-     *
-     * @param clientRequestInfo
-     * @return false se o cartão já está bloqueado, true se o cartão foi bloqueado com sucesso.
-     */
-    public boolean bloquear(ClientRequestInfo clientRequestInfo) {
-        if (Objects.nonNull(this.bloqueio)) {
-            return false;
-        }
+    public String getNumero() {
+        return numero;
+    }
 
-        this.bloqueio = clientRequestInfo.toBloqueio(this);
-
-        return true;
+    public boolean possuiBloqueio() {
+        return Objects.nonNull(bloqueio);
     }
 
     @Override

@@ -6,13 +6,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+// !TODO validar
 public class ClientRequestInfo {
 
     @NotBlank
-    private final String clientIp;
+    private String clientIp;
 
     @NotBlank
-    private final String userAgent;
+    private String userAgent;
 
     ClientRequestInfo(String clientIp, String userAgent) {
         this.clientIp = clientIp;

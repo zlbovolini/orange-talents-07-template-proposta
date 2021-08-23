@@ -28,6 +28,9 @@ public class Bloqueio {
     @NotBlank
     private String userAgent;
 
+    @Enumerated(EnumType.STRING)
+    private BloqueioStatus status = BloqueioStatus.INICIADO;
+
     @Deprecated
     Bloqueio() {}
 
@@ -39,4 +42,21 @@ public class Bloqueio {
         this.clientIp = clientIp;
         this.userAgent = userAgent;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
+    }
+
+    public void inicia() {
+        this.status = BloqueioStatus.INICIADO;
+    }
+
+    public void finaliza() {
+        this.status = BloqueioStatus.FINALIZADO;
+    }
+
 }

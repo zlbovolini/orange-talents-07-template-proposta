@@ -1,17 +1,12 @@
 package com.github.zlbovolini.proposta.bloqueiacartao;
 
-import com.github.zlbovolini.proposta.comum.Cartao;
 import com.github.zlbovolini.proposta.comum.CartaoRepository;
-import com.github.zlbovolini.proposta.exception.ApiErrorResponse;
+import com.github.zlbovolini.proposta.exception.ApiErrorException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -19,50 +14,41 @@ import java.util.UUID;
 public class BloquearCartaoController {
 
     private final CartaoRepository cartaoRepository;
+    private final BloqueioRepository bloqueioRepository;
     private final TransactionTemplate transactionTemplate;
+    private final BloqueioCartaoEvents bloqueioCartaoEvents;
 
     public BloquearCartaoController(CartaoRepository cartaoRepository,
-                                    TransactionTemplate transactionTemplate) {
+                                    BloqueioRepository bloqueioRepository, TransactionTemplate transactionTemplate,
+                                    BloqueioCartaoEvents bloqueioCartaoEvents) {
         this.cartaoRepository = cartaoRepository;
+        this.bloqueioRepository = bloqueioRepository;
         this.transactionTemplate = transactionTemplate;
+        this.bloqueioCartaoEvents = bloqueioCartaoEvents;
     }
 
     @PostMapping("/{uuid}/bloqueios")
-    public ResponseEntity<?> bloquear(@PathVariable UUID uuid, HttpServletRequest request) {
+    public ResponseEntity<?> bloquear(@PathVariable UUID uuid,
+                                      @RequestHeader("X-Forwarded-For") String clientIp,
+                                      @RequestHeader("User-Agent") String userAgent) {
 
-        boolean existeCartao = cartaoRepository.existsByUuid(uuid);
+        ClientRequestInfo clientRequestInfo = new ClientRequestInfo(clientIp, userAgent);
 
-        if (!existeCartao) {
-            return ResponseEntity.notFound().build();
-        }
+        Bloqueio bloqueio = transactionTemplate.execute(status -> cartaoRepository.findByUuid(uuid)
+                .map(cartao -> {
 
-        return Optional.ofNullable(request.getHeader("User-Agent"))
-                .map(userAgent -> {
-                    String clientIp = request.getRemoteAddr();
-
-                    boolean bloqueadoComSucesso = transactionTemplate.execute(status -> {
-                        Cartao cartao = cartaoRepository.findByUuid(uuid)
-                                .orElseThrow();
-                        ClientRequestInfo clientRequestInfo = new ClientRequestInfo(clientIp, userAgent);
-
-                        boolean sucesso = cartao.bloquear(clientRequestInfo);
-                        cartaoRepository.save(cartao);
-
-                        return sucesso;
-                    });
-
-                    if (bloqueadoComSucesso) {
-                        return ResponseEntity.ok().build();
+                    if (cartao.possuiBloqueio()) {
+                        throw new ApiErrorException(HttpStatus.UNPROCESSABLE_ENTITY, "Cartão está em processo de bloqueio ou já está bloqueado");
                     }
 
-                    ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder()
-                            .addGlobalError("Cartão já está bloqueado");
-                    return ResponseEntity.unprocessableEntity().body(apiErrorResponse);
+                    Bloqueio novoBloqueio = clientRequestInfo.toBloqueio(cartao);
+
+                    return bloqueioRepository.save(novoBloqueio);
                 })
-                .orElseGet(() -> {
-                        ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder()
-                                .addGlobalError("O Header User-Agent deve ser informado");
-                        return ResponseEntity.badRequest().body(apiErrorResponse);
-                });
+                .orElseThrow(() -> new ApiErrorException(HttpStatus.BAD_REQUEST, "Cartão não encontrado")));
+
+        bloqueioCartaoEvents.execute(bloqueio);
+
+        return ResponseEntity.ok().build();
     }
 }
