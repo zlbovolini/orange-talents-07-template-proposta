@@ -5,6 +5,8 @@ import com.github.zlbovolini.proposta.comum.CartaoRepository;
 import com.github.zlbovolini.proposta.comum.Proposta;
 import com.github.zlbovolini.proposta.comum.PropostaRepository;
 import feign.FeignException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -30,9 +32,19 @@ public class AtualizaCartaoPropostasAprovadasScheduledTask {
         this.consultaCartao = consultaCartao;
     }
 
+    /**
+     * !TODO Não garante que todos os resultados serão processados.
+     * Importante: Os 1.000 (pageSize) primeiros cartões registrados serão processados,
+     * mas se o status ou cartão não mudar pode ocorrer que os outros cartões nunca sejam processados.
+     * Importante: Não implementar com loop ou recursão.
+     */
     @Scheduled(fixedDelayString = "${scheduled-task.consulta-existe-cartao.periodicidade.executa-operacao}")
     public void executa() {
-        propostaRepository.findByStatusAndCartaoIsNull(ELEGIVEL)
+
+        final int pageSize = 1_000;
+        Pageable pageable = PageRequest.of(0, pageSize);
+
+        propostaRepository.findByStatusAndCartaoIsNull(ELEGIVEL, pageable)
                 .forEach(proposta -> {
                     try {
                         DadosCartaoResponse detalhesCartao = consultaCartao.consulta(proposta.getUuid());
