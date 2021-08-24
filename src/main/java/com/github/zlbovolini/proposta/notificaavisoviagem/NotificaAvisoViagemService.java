@@ -12,11 +12,11 @@ import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
 
 import static com.github.zlbovolini.proposta.criaavisoviagem.AvisoViagemStatus.AGUARDANDO;
-import static com.github.zlbovolini.proposta.criaavisoviagem.AvisoViagemStatus.CRIADO;
+import static com.github.zlbovolini.proposta.criaavisoviagem.AvisoViagemStatus.INICIADO;
 
 @Service
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class NotificaAvisoViagemService implements NotificaAvisoViagemEvent {
+public class NotificaAvisoViagemService implements CriarAvisoViagemEvent {
 
     private final NotificaAvisoViagem notificaAvisoViagem;
     private final AvisoViagemRepository avisoViagemRepository;
@@ -39,7 +39,7 @@ public class NotificaAvisoViagemService implements NotificaAvisoViagemEvent {
         transactionTemplate.execute(status -> {
             avisoViagemRepository.findById(avisoViagem.getId())
                     .ifPresentOrElse(e -> {
-                        Assert.isTrue(CRIADO.equals(avisoViagem.getStatus()), "Status inválido");
+                        Assert.isTrue(INICIADO.equals(avisoViagem.getStatus()), "Status inválido");
                         avisoViagem.setStatus(AGUARDANDO);
                     }, () -> {
                         throw new ApiErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Não foi possível adicionar o aviso de viagem");

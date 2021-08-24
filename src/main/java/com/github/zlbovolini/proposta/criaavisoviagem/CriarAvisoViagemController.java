@@ -2,7 +2,7 @@ package com.github.zlbovolini.proposta.criaavisoviagem;
 
 import com.github.zlbovolini.proposta.comum.CartaoRepository;
 import com.github.zlbovolini.proposta.comum.ClientRequestInfo;
-import com.github.zlbovolini.proposta.notificaavisoviagem.NotificaAvisoViagemEvents;
+import com.github.zlbovolini.proposta.notificaavisoviagem.CriarAvisoViagemEvents;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +17,16 @@ public class CriarAvisoViagemController {
     private final AvisoViagemRepository avisoViagemRepository;
     private final CartaoRepository cartaoRepository;
     private final TransactionTemplate transactionTemplate;
-    private final NotificaAvisoViagemEvents notificaAvisoViagemEvents;
+    private final CriarAvisoViagemEvents criarAvisoViagemEvents;
 
     public CriarAvisoViagemController(AvisoViagemRepository avisoViagemRepository,
                                       CartaoRepository cartaoRepository,
                                       TransactionTemplate transactionTemplate,
-                                      NotificaAvisoViagemEvents notificaAvisoViagemEvents) {
+                                      CriarAvisoViagemEvents criarAvisoViagemEvents) {
         this.avisoViagemRepository = avisoViagemRepository;
         this.cartaoRepository = cartaoRepository;
         this.transactionTemplate = transactionTemplate;
-        this.notificaAvisoViagemEvents = notificaAvisoViagemEvents;
+        this.criarAvisoViagemEvents = criarAvisoViagemEvents;
     }
 
     @PostMapping("/{uuid}/viagens")
@@ -42,7 +42,7 @@ public class CriarAvisoViagemController {
 
                     transactionTemplate.execute(status -> avisoViagemRepository.save(avisoViagem));
 
-                    notificaAvisoViagemEvents.executa(avisoViagem);
+                    criarAvisoViagemEvents.executa(avisoViagem);
 
                     return ResponseEntity.ok().build();
                 })

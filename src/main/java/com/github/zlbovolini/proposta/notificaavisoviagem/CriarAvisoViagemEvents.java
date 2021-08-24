@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class NotificaAvisoViagemEvents {
+public class CriarAvisoViagemEvents {
 
-    private final List<NotificaAvisoViagemEvent> notificaAvisoViagemEvents;
+    private final List<CriarAvisoViagemEvent> criarAvisoViagemEvents;
 
-    public NotificaAvisoViagemEvents(List<NotificaAvisoViagemEvent> notificaAvisoViagemEvents) {
-        this.notificaAvisoViagemEvents = notificaAvisoViagemEvents;
+    public CriarAvisoViagemEvents(List<CriarAvisoViagemEvent> criarAvisoViagemEvents) {
+        this.criarAvisoViagemEvents = criarAvisoViagemEvents;
     }
 
     public void executa(AvisoViagem avisoViagem) {
-        notificaAvisoViagemEvents.forEach(event -> event.executa(avisoViagem));
+        criarAvisoViagemEvents.forEach(event -> event.executa(avisoViagem));
     }
 }

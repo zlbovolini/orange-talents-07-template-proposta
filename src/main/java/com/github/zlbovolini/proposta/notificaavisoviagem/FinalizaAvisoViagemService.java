@@ -15,7 +15,7 @@ import static com.github.zlbovolini.proposta.criaavisoviagem.AvisoViagemStatus.F
 
 @Service
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class FinalizaAvisoViagemService implements NotificaAvisoViagemEvent {
+public class FinalizaAvisoViagemService implements CriarAvisoViagemEvent {
 
     private final AvisoViagemRepository avisoViagemRepository;
     private final TransactionTemplate transactionTemplate;

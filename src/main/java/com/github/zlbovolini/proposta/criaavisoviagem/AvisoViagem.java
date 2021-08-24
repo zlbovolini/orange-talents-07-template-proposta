@@ -38,7 +38,7 @@ class AvisoViagem {
     private String clientUserAgent;
 
     @Enumerated(EnumType.STRING)
-    private AvisoViagemStatus status = AvisoViagemStatus.CRIADO;
+    private AvisoViagemStatus status = AvisoViagemStatus.INICIADO;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
