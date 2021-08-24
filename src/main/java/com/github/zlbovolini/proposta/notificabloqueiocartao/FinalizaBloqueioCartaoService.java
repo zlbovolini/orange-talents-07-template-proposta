@@ -3,6 +3,7 @@ package com.github.zlbovolini.proposta.notificabloqueiocartao;
 import com.github.zlbovolini.proposta.bloqueiacartao.Bloqueio;
 import com.github.zlbovolini.proposta.bloqueiacartao.BloqueioRepository;
 import com.github.zlbovolini.proposta.exception.ApiErrorException;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import static com.github.zlbovolini.proposta.bloqueiacartao.BloqueioStatus.AGUAR
 import static com.github.zlbovolini.proposta.bloqueiacartao.BloqueioStatus.FINALIZADO;
 
 @Service
-@Order(2)
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class FinalizaBloqueioCartaoService implements CriarBloqueioCartaoEvent {
 
     private final BloqueioRepository bloqueioRepository;
