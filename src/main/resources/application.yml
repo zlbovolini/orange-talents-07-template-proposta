@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: ${NOME_DA_APLICACAO:Proposta API}
   datasource:
     url: jdbc:postgresql://${PROPOSTA_DB_HOSTNAME:localhost}:${PROPOSTA_DB_PORT:5400}/${PROPOSTA_DB_NAME:proposta_dev}
     username: ${PROPOSTA_DB_USERNAME:zup}
@@ -41,6 +43,14 @@ management:
       cors:
         allowed-origins: http://127.0.0.1
         allowed-methods: GET
+      exposure:
+        include: info, health, prometheus
+    prometheus:
+      enabled: true
+  metrics:
+    tags:
+      aplicacao: ${NOME_DA_APLICACAO:Proposta API}
+      ambiente: ${AMBIENTE:desenvolvimento}
 
 scheduled-task:
   consulta-existe-cartao:
