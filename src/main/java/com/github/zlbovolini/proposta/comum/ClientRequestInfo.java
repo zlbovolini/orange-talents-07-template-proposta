@@ -1,6 +1,6 @@
-package com.github.zlbovolini.proposta.bloqueiacartao;
+package com.github.zlbovolini.proposta.comum;
 
-import com.github.zlbovolini.proposta.comum.Cartao;
+import com.github.zlbovolini.proposta.bloqueiacartao.Bloqueio;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -15,9 +15,17 @@ public class ClientRequestInfo {
     @NotBlank
     private String userAgent;
 
-    ClientRequestInfo(String clientIp, String userAgent) {
+    public ClientRequestInfo(String clientIp, String userAgent) {
         this.clientIp = clientIp;
         this.userAgent = userAgent;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
     }
 
     public Bloqueio toBloqueio(@Valid @NotNull Cartao cartao) {

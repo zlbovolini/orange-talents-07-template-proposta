@@ -1,6 +1,7 @@
 package com.github.zlbovolini.proposta.bloqueiacartao;
 
 import com.github.zlbovolini.proposta.comum.CartaoRepository;
+import com.github.zlbovolini.proposta.comum.ClientRequestInfo;
 import com.github.zlbovolini.proposta.exception.ApiErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
