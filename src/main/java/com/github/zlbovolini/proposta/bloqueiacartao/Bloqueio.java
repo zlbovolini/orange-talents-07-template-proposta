@@ -51,12 +51,11 @@ public class Bloqueio {
         return cartao;
     }
 
-    public void inicia() {
-        this.status = BloqueioStatus.INICIADO;
+    public BloqueioStatus getStatus() {
+        return status;
     }
 
-    public void finaliza() {
-        this.status = BloqueioStatus.FINALIZADO;
+    public void setStatus(BloqueioStatus status) {
+        this.status = status;
     }
-
 }

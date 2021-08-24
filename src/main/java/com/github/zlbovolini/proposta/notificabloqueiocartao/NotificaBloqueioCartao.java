@@ -1,4 +1,4 @@
-package com.github.zlbovolini.proposta.bloqueiacartao;
+package com.github.zlbovolini.proposta.notificabloqueiocartao;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Map;
 
 @FeignClient(value = "bloqueio", url = "${cartoes.host}")
-public interface SolicitaBloqueioCartao {
+public interface NotificaBloqueioCartao {
 
     @PostMapping(path = "/{id}/bloqueios", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void bloquear(@PathVariable(name = "id") String numeroCartao, @RequestBody Map<String, String> body);
+    void notificar(@PathVariable(name = "id") String numeroCartao, @RequestBody Map<String, String> body);
 }
