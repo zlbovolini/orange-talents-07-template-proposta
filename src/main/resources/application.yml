@@ -64,7 +64,7 @@ opentracing:
 scheduled-task:
   consulta-existe-cartao:
     periodicidade:
-      executa-operacao: ${PERIODICIDADE_CONSULTA_EXISTE_CARTAO:1000}
+      executa-operacao: ${PERIODICIDADE_CONSULTA_EXISTE_CARTAO:10000}
 
 # Microservices
 solicitacao:
