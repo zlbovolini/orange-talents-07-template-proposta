@@ -1,4 +1,4 @@
-package com.github.zlbovolini.proposta.associapaypalcartao;
+package com.github.zlbovolini.proposta.associacarteiracartao;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

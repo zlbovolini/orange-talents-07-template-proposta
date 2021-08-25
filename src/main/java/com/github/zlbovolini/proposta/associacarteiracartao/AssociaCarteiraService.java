@@ -1,4 +1,4 @@
-package com.github.zlbovolini.proposta.associapaypalcartao;
+package com.github.zlbovolini.proposta.associacarteiracartao;
 
 import com.github.zlbovolini.proposta.criacarteira.Carteira;
 import com.github.zlbovolini.proposta.criacarteira.CarteiraRepository;
@@ -11,7 +11,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.util.Optional;
 
 @Service
-public class AssociaCarteiraPaypalService implements CriarCarteiraPaypalEvent {
+public class AssociaCarteiraService implements CriarCarteiraEvent {
 
     private final AssociaCarteiraCartao associaCarteiraCartao;
     private final CarteiraRepository carteiraRepository;
@@ -19,9 +19,9 @@ public class AssociaCarteiraPaypalService implements CriarCarteiraPaypalEvent {
 
     private final String erro = "Não foi possível associar a carteira ao cartão";
 
-    public AssociaCarteiraPaypalService(AssociaCarteiraCartao associaCarteiraCartao,
-                                        CarteiraRepository carteiraRepository,
-                                        TransactionTemplate transactionTemplate) {
+    public AssociaCarteiraService(AssociaCarteiraCartao associaCarteiraCartao,
+                                  CarteiraRepository carteiraRepository,
+                                  TransactionTemplate transactionTemplate) {
         this.associaCarteiraCartao = associaCarteiraCartao;
         this.carteiraRepository = carteiraRepository;
         this.transactionTemplate = transactionTemplate;
