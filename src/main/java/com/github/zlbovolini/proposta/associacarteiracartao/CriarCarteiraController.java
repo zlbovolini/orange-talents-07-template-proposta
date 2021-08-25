@@ -5,6 +5,8 @@ import com.github.zlbovolini.proposta.criacarteira.Carteira;
 import com.github.zlbovolini.proposta.criacarteira.CarteiraTipo;
 import com.github.zlbovolini.proposta.criacarteira.CriarCarteiraRequest;
 import com.github.zlbovolini.proposta.exception.ApiErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +21,8 @@ import static com.github.zlbovolini.proposta.criacarteira.CarteiraTipo.SAMSUNGPA
 @RestController
 @RequestMapping("/api/v1/cartoes")
 public class CriarCarteiraController {
+
+    private final Logger logger = LoggerFactory.getLogger(CriarCarteiraController.class);
 
     private final CartaoRepository cartaoRepository;
     private final AssociaCarteiraService associaCarteiraService;
@@ -46,6 +50,7 @@ public class CriarCarteiraController {
                 .map(cartao -> {
 
                     if (cartao.possuiCarteira(carteiraTipo)) {
+                        logger.info("Carteira tipo={} não associada ao Cartão uuid={}, pois já possui carteira do mesmo tipo associada ", carteiraTipo, uuid);
                         ApiErrorResponse apiErrorResponse = ApiErrorResponse.builder()
                                 .addGlobalError("Este cartão já está associado a uma carteira do " + carteiraTipo);
                         return ResponseEntity.unprocessableEntity().body(apiErrorResponse);
@@ -58,6 +63,8 @@ public class CriarCarteiraController {
                             .path("/{uuid}")
                             .buildAndExpand(carteira.getUuid())
                             .toUri();
+
+                    logger.info("Carteira tipo={} associada ao Cartão uuid={} com sucesso!", carteiraTipo, uuid);
 
                     return ResponseEntity.created(location).build();
                 })
