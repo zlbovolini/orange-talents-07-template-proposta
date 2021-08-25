@@ -39,10 +39,13 @@ services:
       dockerfile: ./docker/Dockerfile
     image: lbovolini/proposta
     ports:
-      - "8188:8080"
+      - "8188:8188"
     environment:
+      SERVER_PORT: 8188
       PROPOSTA_DB_HOSTNAME: proposta_postgres
       PROPOSTA_DB_PORT: 5432
+      FINANCEIROS_URL: 'http://analise:9999/api/solicitacao'
+      CARTOES_URL: 'http://contas:8888/api/cartoes'
     depends_on:
       - proposta_postgres
 
