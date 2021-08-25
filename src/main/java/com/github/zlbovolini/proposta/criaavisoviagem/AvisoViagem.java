@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -47,7 +48,8 @@ class AvisoViagem {
     @Deprecated
     AvisoViagem() {}
 
-    AvisoViagem(String destino, LocalDate termino, String clientIp, String clientUserAgent, Cartao cartao) {
+    AvisoViagem(String destino, LocalDate termino, String clientIp, String clientUserAgent,
+                @Valid @NotNull Cartao cartao) {
         Assert.notNull(cartao, "O Cartão deve ser informado no cadastro de aviso de viagem");
         this.destino = destino;
         this.termino = termino;
@@ -76,7 +78,7 @@ class AvisoViagem {
         return status;
     }
 
-    public void setStatus(AvisoViagemStatus status) {
+    public void setStatus(@NotNull AvisoViagemStatus status) {
         this.status = status;
     }
 }
