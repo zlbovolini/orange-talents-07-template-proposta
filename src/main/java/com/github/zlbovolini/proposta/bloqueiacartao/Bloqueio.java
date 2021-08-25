@@ -55,7 +55,7 @@ public class Bloqueio {
         return status;
     }
 
-    public void setStatus(BloqueioStatus status) {
+    public void setStatus(@NotNull BloqueioStatus status) {
         this.status = status;
     }
 }
