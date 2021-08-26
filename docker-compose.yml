@@ -44,6 +44,9 @@ services:
       SERVER_PORT: 8188
       PROPOSTA_DB_HOSTNAME: proposta_postgres
       PROPOSTA_DB_PORT: 5432
+      JAEGER_ENDPOINT: 'http://jaeger:14268/api/traces'
+      KEYCLOAK_ISSUER_URI: 'http://keycloak:8080/auth/realms/propostas'
+      KEYCLOAK_JWKS_URI: 'http://keycloak:8080/auth/realms/propostas/protocol/openid-connect/certs'
       FINANCEIROS_URL: 'http://analise:9999/api/solicitacao'
       CARTOES_URL: 'http://contas:8888/api/cartoes'
     depends_on:
@@ -65,7 +68,7 @@ services:
     image: jboss/keycloak:11.0.0
     ports:
       - 18443:8443
-      - 18080:8080
+      - 8080:8080
       - 19990:9990
     depends_on:
       # Just a delay to wait for postgres! This is not recommended!
@@ -78,6 +81,7 @@ services:
       - analise
       - transacoes
       - postgres
+      - proposta
     environment:
       DB_VENDOR: postgres
       DB_ADDR: postgres
