@@ -7,7 +7,7 @@ spring:
     password: ${PROPOSTA_DB_PASSWORD:zup}
     driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     hibernate:
       ddl-auto: update
     show_sql: true
@@ -29,6 +29,11 @@ spring:
           issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:18080/auth/realms/propostas}
           # URI das chaves para validar a assinatura do token
           jwk-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:18080/auth/realms/propostas/protocol/openid-connect/certs}
+proposta:
+  crypto:
+    secret-key: ${PROPOSTA_CRYPTO_KEY}
+    iv: ${PROPOSTA_CRYPTO_IV}
+
 server:
   port: ${SERVER_PORT:8080}
   error:

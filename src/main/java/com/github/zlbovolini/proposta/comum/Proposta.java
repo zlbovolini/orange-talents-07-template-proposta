@@ -1,6 +1,5 @@
 package com.github.zlbovolini.proposta.comum;
 
-import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -23,9 +22,15 @@ public class Proposta {
     @Type(type = "uuid-char")
     private UUID uuid = UUID.randomUUID();
 
+    /**
+     * Documento criptografado
+     */
     @NotBlank
-    @CPFOrCNPJ
     private String documento;
+
+    @NotBlank
+    @Column(unique = true)
+    private String documentoHash;
 
     @NotBlank
     @Email
@@ -51,8 +56,9 @@ public class Proposta {
     @Deprecated
     Proposta() {}
 
-    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
-        this.documento = documento;
+    public Proposta(Dado documento, String email, String nome, String endereco, BigDecimal salario) {
+        this.documento = documento.encrypted();
+        this.documentoHash = documento.hashed();
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;

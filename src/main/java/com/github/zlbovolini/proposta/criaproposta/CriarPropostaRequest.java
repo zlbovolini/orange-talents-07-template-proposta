@@ -1,8 +1,9 @@
 package com.github.zlbovolini.proposta.criaproposta;
 
+import com.github.zlbovolini.proposta.comum.Dado;
 import com.github.zlbovolini.proposta.comum.Proposta;
 import com.github.zlbovolini.proposta.validation.CPFOrCNPJ;
-import com.github.zlbovolini.proposta.validation.Unique;
+import com.github.zlbovolini.proposta.validation.UniqueHash;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,14 +11,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-
 class CriarPropostaRequest {
 
     @NotBlank
     @CPFOrCNPJ
-    @Unique(entity = Proposta.class, field = "documento", self = "documento",
-            statusOnFailure = UNPROCESSABLE_ENTITY)
+    @UniqueHash(entity = Proposta.class, field = "documentoHash", self = "documento")
     private final String documento;
 
     @NotBlank
@@ -43,6 +41,7 @@ class CriarPropostaRequest {
     }
 
     Proposta toModel() {
+        Dado documento = Dado.encode(this.documento);
         return new Proposta(documento, email, nome, endereco, salario);
     }
 }
