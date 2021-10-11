@@ -35,6 +35,9 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao")
     private Set<Carteira> carteiras;
 
+    @OneToOne(mappedBy = "cartao")
+    private Proposta proposta;
+
     @Deprecated
     Cartao() {}
 

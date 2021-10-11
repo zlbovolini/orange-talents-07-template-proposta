@@ -23,6 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .hasAuthority("SCOPE_propostas")
                     .antMatchers(HttpMethod.POST, "/api/v1/cartoes/**")
                         .hasAuthority("SCOPE_cartoes")
+//                    .antMatchers(HttpMethod.GET, "/actuator/**")
+//                        .permitAll()
                     .anyRequest().authenticated())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .csrf().disable();

@@ -12,4 +12,7 @@ public interface PropostaRepository extends CrudRepository<Proposta, Long> {
     Optional<Proposta> findByUuid(UUID uuid);
 
     Page<Proposta> findByStatusAndCartaoIsNull(PropostaStatus status, Pageable pageable);
+
+    Optional<String> findEmailByCartaoUuid(UUID cartaoUuid);
+
 }
